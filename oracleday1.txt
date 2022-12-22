@@ -1,0 +1,2425 @@
+1.connect sql prompt
+
+conn
+username:system
+password:		//manager
+
+1.create:
+
+create table table(col datatype,col2 datatype------coln datatype);
+
+ create table cust(c_id number(6),c_names varchar2(10),dob  date,regdate date default sysdate,bill_amount number(8,2));
+
+Table created.
+
+SQL> desc cust;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ C_ID                                               NUMBER(6)
+ C_NAMES                                            VARCHAR2(10)
+ DOB                                                DATE
+ REGDATE                                            DATE
+ BILL_AMOUNT                                        NUMBER(8,2)
+
+
+alter : add new column
+	modify existing col
+	drop specified column
+
+
+SQL> alter table cust add(city varchar2(8));
+
+Table altered.
+
+SQL> desc cust;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ C_ID                                               NUMBER(6)
+ C_NAMES                                            VARCHAR2(10)
+ DOB                                                DATE
+ REGDATE                                            DATE
+ BILL_AMOUNT                                        NUMBER(8,2)
+ CITY                                               VARCHAR2(8)
+
+SQL> alter table cust modify (city varchar2(12));
+
+Table altered.
+
+SQL> desc cust;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ C_ID                                               NUMBER(6)
+ C_NAMES                                            VARCHAR2(10)
+ DOB                                                DATE
+ REGDATE                                            DATE
+ BILL_AMOUNT                                        NUMBER(8,2)
+ CITY                                               VARCHAR2(12)
+
+SQL> alter table cust drop column city;
+
+Table altered.
+
+SQL> desc cust;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ C_ID                                               NUMBER(6)
+ C_NAMES                                            VARCHAR2(10)
+ DOB                                                DATE
+ REGDATE                                            DATE
+ BILL_AMOUNT                                        NUMBER(8,2)
+
+
+ rename cust to BankCust;
+
+SQL> desc cust;
+ERROR:
+ORA-04043: object cust does not exist
+
+
+SQL> desc bankcust;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ C_ID                                               NUMBER(6)
+ C_NAMES                                            VARCHAR2(10)
+ DOB                                                DATE
+ REGDATE                                            DATE
+ BILL_AMOUNT                                        NUMBER(8,2)
+
+
+insert into bankcust (c_id,c_names,dob,bill_amount)values(1234,'krishna','12-jan-1992',23000.00);
+
+ref methods :
+
+
+update bankcust set bill_amount=30500 where c_id=1239;
+
+ select * from bankcust;
+
+      C_ID C_NAMES    DOB       REGDATE   BILL_AMOUNT
+---------- ---------- --------- --------- -----------
+      1234 krishna    12-JAN-92 22-DEC-22       23000
+      1235 teja       12-SEP-92 22-DEC-22       26000
+      1239 teja       12-OCT-92 22-DEC-22       30500
+
+SQL> delete from bankcust where c_id=1235;
+
+1 row deleted.
+
+SQL> select * from bankcust;
+
+      C_ID C_NAMES    DOB       REGDATE   BILL_AMOUNT
+---------- ---------- --------- --------- -----------
+      1234 krishna    12-JAN-92 22-DEC-22       23000
+      1239 teja       12-OCT-92 22-DEC-22       30500
+
+SQL> select c_id,c_names,bill_amount from bankcust;
+
+      C_ID C_NAMES    BILL_AMOUNT
+---------- ---------- -----------
+      1234 krishna          23000
+      1239 teja             30500
+
+
+ create user java6pm identified by java6pm;
+
+User created.
+
+SQL> grant  CREATE SESSION to java6pm;
+
+Grant succeeded.
+
+SQL> revoke  CREATE SESSION from java6pm;
+
+Revoke succeeded.
+
+SQL> select * from bankcust;
+
+      C_ID C_NAMES    DOB       REGDATE   BILL_AMOUNT
+---------- ---------- --------- --------- -----------
+      1234 krishna    12-JAN-92 22-DEC-22       23000
+      1239 teja       12-OCT-92 22-DEC-22       30500
+
+SQL> savepoint mybackup;
+
+Savepoint created.
+
+SQL> delete from bankcust where c_id=1234;
+
+1 row deleted.
+
+
+SQL> delete from bankcust where c_id=1239;
+
+1 row deleted.
+
+SQL> select * from bankcust;
+
+no rows selected
+
+
+SQL> roll back to mybackup;
+Rollback complete.
+SQL> select * from bankcust;
+
+      C_ID C_NAMES    DOB       REGDATE   BILL_AMOUNT
+---------- ---------- --------- --------- -----------
+      1234 krishna    12-JAN-92 22-DEC-22       23000
+      1239 teja       12-OCT-92 22-DEC-22       30500
+
+
+SQL> truncate table bankcust;
+
+Table truncated.
+
+SQL> select * from bankcust;
+
+no rows selected
+
+SQL> desc bankcust;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ C_ID                                               NUMBER(6)
+ C_NAMES                                            VARCHAR2(10)
+ DOB                                                DATE
+ REGDATE                                            DATE
+ BILL_AMOUNT                                        NUMBER(8,2)
+
+SQL> drop table bankcust;
+
+Table dropped.
+
+SQL> select * from bankcust;
+select * from bankcust
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> desc bankcust;
+ERROR:
+ORA-04043: object bankcust does not exist
+
+SQL> commit;
+
+Commit complete.
+
+
+SQL> create table stu(s_id number(5),sname varchar2(8),fee number(8,2));
+
+Table created.
+
+SQL> insert into stu values(1238,'krishna',3289.90);
+
+1 row created.
+
+SQL> insert into stu values(&s_id,'&sname',&fee);
+Enter value for s_id: 1236
+Enter value for sname: swetha
+Enter value for fee: 8908
+old   1: insert into stu values(&s_id,'&sname',&fee)
+new   1: insert into stu values(1236,'swetha',8908)
+
+1 row created.
+
+SQL> /
+Enter value for s_id: 1267
+Enter value for sname: pavan
+Enter value for fee: 1200
+old   1: insert into stu values(&s_id,'&sname',&fee)
+new   1: insert into stu values(1267,'pavan',1200)
+
+1 row created.
+
+SQL> /
+Enter value for s_id: 1689
+Enter value for sname: kamal
+Enter value for fee: 89000.67
+old   1: insert into stu values(&s_id,'&sname',&fee)
+new   1: insert into stu values(1689,'kamal',89000.67)
+
+1 row created.
+
+
+alter user hr identified by hr account unlock;
+----------------------------------------------------
+conn
+hr
+hr
+
+
+SQL*Plus: Release 11.2.0.2.0 Production on Thu Dec 22 18:08:12 2022
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> conn
+Enter user-name: system
+Enter password:
+ERROR:
+ORA-28002: the password will expire within 7 days
+
+
+Connected.
+SQL>
+SQL> CONN
+Enter user-name: system
+Enter password:
+ERROR:
+ORA-28002: the password will expire within 7 days
+
+
+Connected.
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+AQ$DEF$_AQCALL                 VIEW
+AQ$DEF$_AQERROR                VIEW
+AQ$_DEF$_AQCALL_F              VIEW
+AQ$_DEF$_AQERROR_F             VIEW
+AQ$_INTERNET_AGENTS            TABLE
+AQ$_INTERNET_AGENT_PRIVS       TABLE
+AQ$_QUEUES                     TABLE
+AQ$_QUEUE_TABLES               TABLE
+AQ$_SCHEDULES                  TABLE
+CATALOG                        SYNONYM
+COL                            SYNONYM
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+DBUSER                         TABLE
+DEF$_AQCALL                    TABLE
+DEF$_AQERROR                   TABLE
+DEF$_CALLDEST                  TABLE
+DEF$_DEFAULTDEST               TABLE
+DEF$_DESTINATION               TABLE
+DEF$_ERROR                     TABLE
+DEF$_LOB                       TABLE
+DEF$_ORIGIN                    TABLE
+DEF$_PROPAGATOR                TABLE
+DEF$_PUSHED_TRANSACTIONS       TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+EMPLOYEE                       TABLE
+HELP                           TABLE
+LOGMNRC_DBNAME_UID_MAP         TABLE
+LOGMNRC_GSBA                   TABLE
+LOGMNRC_GSII                   TABLE
+LOGMNRC_GTCS                   TABLE
+LOGMNRC_GTLO                   TABLE
+LOGMNRP_CTAS_PART_MAP          TABLE
+LOGMNRT_MDDL$                  TABLE
+LOGMNR_AGE_SPILL$              TABLE
+LOGMNR_ATTRCOL$                TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+LOGMNR_ATTRIBUTE$              TABLE
+LOGMNR_CCOL$                   TABLE
+LOGMNR_CDEF$                   TABLE
+LOGMNR_COL$                    TABLE
+LOGMNR_COLTYPE$                TABLE
+LOGMNR_DICTIONARY$             TABLE
+LOGMNR_DICTSTATE$              TABLE
+LOGMNR_ENC$                    TABLE
+LOGMNR_ERROR$                  TABLE
+LOGMNR_FILTER$                 TABLE
+LOGMNR_GLOBAL$                 TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+LOGMNR_GT_TAB_INCLUDE$         TABLE
+LOGMNR_GT_USER_INCLUDE$        TABLE
+LOGMNR_GT_XID_INCLUDE$         TABLE
+LOGMNR_ICOL$                   TABLE
+LOGMNR_IND$                    TABLE
+LOGMNR_INDCOMPART$             TABLE
+LOGMNR_INDPART$                TABLE
+LOGMNR_INDSUBPART$             TABLE
+LOGMNR_INTEGRATED_SPILL$       TABLE
+LOGMNR_KOPM$                   TABLE
+LOGMNR_LOB$                    TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+LOGMNR_LOBFRAG$                TABLE
+LOGMNR_LOG$                    TABLE
+LOGMNR_LOGMNR_BUILDLOG         TABLE
+LOGMNR_NTAB$                   TABLE
+LOGMNR_OBJ$                    TABLE
+LOGMNR_OPQTYPE$                TABLE
+LOGMNR_PARAMETER$              TABLE
+LOGMNR_PARTOBJ$                TABLE
+LOGMNR_PROCESSED_LOG$          TABLE
+LOGMNR_PROPS$                  TABLE
+LOGMNR_REFCON$                 TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+LOGMNR_RESTART_CKPT$           TABLE
+LOGMNR_RESTART_CKPT_TXINFO$    TABLE
+LOGMNR_SEED$                   TABLE
+LOGMNR_SESSION$                TABLE
+LOGMNR_SESSION_ACTIONS$        TABLE
+LOGMNR_SESSION_EVOLVE$         TABLE
+LOGMNR_SPILL$                  TABLE
+LOGMNR_SUBCOLTYPE$             TABLE
+LOGMNR_TAB$                    TABLE
+LOGMNR_TABCOMPART$             TABLE
+LOGMNR_TABPART$                TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+LOGMNR_TABSUBPART$             TABLE
+LOGMNR_TS$                     TABLE
+LOGMNR_TYPE$                   TABLE
+LOGMNR_UID$                    TABLE
+LOGMNR_USER$                   TABLE
+LOGSTDBY$APPLY_MILESTONE       TABLE
+LOGSTDBY$APPLY_PROGRESS        TABLE
+LOGSTDBY$EDS_TABLES            TABLE
+LOGSTDBY$EVENTS                TABLE
+LOGSTDBY$FLASHBACK_SCN         TABLE
+LOGSTDBY$HISTORY               TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+LOGSTDBY$PARAMETERS            TABLE
+LOGSTDBY$PLSQL                 TABLE
+LOGSTDBY$SCN                   TABLE
+LOGSTDBY$SKIP                  TABLE
+LOGSTDBY$SKIP_SUPPORT          TABLE
+LOGSTDBY$SKIP_TRANSACTION      TABLE
+MVIEW$_ADV_AJG                 TABLE
+MVIEW$_ADV_BASETABLE           TABLE
+MVIEW$_ADV_CLIQUE              TABLE
+MVIEW$_ADV_ELIGIBLE            TABLE
+MVIEW$_ADV_EXCEPTIONS          TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+MVIEW$_ADV_FILTER              TABLE
+MVIEW$_ADV_FILTERINSTANCE      TABLE
+MVIEW$_ADV_FJG                 TABLE
+MVIEW$_ADV_GC                  TABLE
+MVIEW$_ADV_INFO                TABLE
+MVIEW$_ADV_JOURNAL             TABLE
+MVIEW$_ADV_LEVEL               TABLE
+MVIEW$_ADV_LOG                 TABLE
+MVIEW$_ADV_OUTPUT              TABLE
+MVIEW$_ADV_PARAMETERS          TABLE
+MVIEW$_ADV_PLAN                TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+MVIEW$_ADV_PRETTY              TABLE
+MVIEW$_ADV_ROLLUP              TABLE
+MVIEW$_ADV_SQLDEPEND           TABLE
+MVIEW$_ADV_TEMP                TABLE
+MVIEW$_ADV_WORKLOAD            TABLE
+MVIEW_EVALUATIONS              VIEW
+MVIEW_EXCEPTIONS               VIEW
+MVIEW_FILTER                   VIEW
+MVIEW_FILTERINSTANCE           VIEW
+MVIEW_LOG                      VIEW
+MVIEW_RECOMMENDATIONS          VIEW
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+MVIEW_WORKLOAD                 VIEW
+OL$                            TABLE
+OL$HINTS                       TABLE
+OL$NODES                       TABLE
+PRODUCT_PRIVS                  VIEW
+PRODUCT_USER_PROFILE           SYNONYM
+PUBLICSYN                      SYNONYM
+REPCAT$_AUDIT_ATTRIBUTE        TABLE
+REPCAT$_AUDIT_COLUMN           TABLE
+REPCAT$_COLUMN_GROUP           TABLE
+REPCAT$_CONFLICT               TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+REPCAT$_DDL                    TABLE
+REPCAT$_EXCEPTIONS             TABLE
+REPCAT$_EXTENSION              TABLE
+REPCAT$_FLAVORS                TABLE
+REPCAT$_FLAVOR_OBJECTS         TABLE
+REPCAT$_GENERATED              TABLE
+REPCAT$_GROUPED_COLUMN         TABLE
+REPCAT$_INSTANTIATION_DDL      TABLE
+REPCAT$_KEY_COLUMNS            TABLE
+REPCAT$_OBJECT_PARMS           TABLE
+REPCAT$_OBJECT_TYPES           TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+REPCAT$_PARAMETER_COLUMN       TABLE
+REPCAT$_PRIORITY               TABLE
+REPCAT$_PRIORITY_GROUP         TABLE
+REPCAT$_REFRESH_TEMPLATES      TABLE
+REPCAT$_REPCAT                 TABLE
+REPCAT$_REPCATLOG              TABLE
+REPCAT$_REPCOLUMN              TABLE
+REPCAT$_REPGROUP_PRIVS         TABLE
+REPCAT$_REPOBJECT              TABLE
+REPCAT$_REPPROP                TABLE
+REPCAT$_REPSCHEMA              TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+REPCAT$_RESOLUTION             TABLE
+REPCAT$_RESOLUTION_METHOD      TABLE
+REPCAT$_RESOLUTION_STATISTICS  TABLE
+REPCAT$_RESOL_STATS_CONTROL    TABLE
+REPCAT$_RUNTIME_PARMS          TABLE
+REPCAT$_SITES_NEW              TABLE
+REPCAT$_SITE_OBJECTS           TABLE
+REPCAT$_SNAPGROUP              TABLE
+REPCAT$_TEMPLATE_OBJECTS       TABLE
+REPCAT$_TEMPLATE_PARMS         TABLE
+REPCAT$_TEMPLATE_REFGROUPS     TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+REPCAT$_TEMPLATE_SITES         TABLE
+REPCAT$_TEMPLATE_STATUS        TABLE
+REPCAT$_TEMPLATE_TARGETS       TABLE
+REPCAT$_TEMPLATE_TYPES         TABLE
+REPCAT$_USER_AUTHORIZATIONS    TABLE
+REPCAT$_USER_PARM_VALUES       TABLE
+SQLPLUS_PRODUCT_PROFILE        TABLE
+SYSCATALOG                     SYNONYM
+SYSFILES                       SYNONYM
+TAB                            SYNONYM
+TABQUOTAS                      SYNONYM
+
+176 rows selected.
+
+SQL> create table cust(c_id number(6),c_names varchar2(10),dob  date,regdate default sysdate,bill_amount number(8,2));
+create table cust(c_id number(6),c_names varchar2(10),dob  date,regdate default sysdate,bill_amount number(8,2))
+                                                                *
+ERROR at line 1:
+ORA-02263: need to specify the datatype for this column
+
+
+SQL> create table cust(c_id number(6),c_names varchar2(10),dob  date,regdate date default sysdate,bill_amount number(8,2));
+
+Table created.
+
+SQL> desc cust;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ C_ID                                               NUMBER(6)
+ C_NAMES                                            VARCHAR2(10)
+ DOB                                                DATE
+ REGDATE                                            DATE
+ BILL_AMOUNT                                        NUMBER(8,2)
+
+SQL> alter table cust add(city varchar2(8));
+
+Table altered.
+
+SQL> desc cust;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ C_ID                                               NUMBER(6)
+ C_NAMES                                            VARCHAR2(10)
+ DOB                                                DATE
+ REGDATE                                            DATE
+ BILL_AMOUNT                                        NUMBER(8,2)
+ CITY                                               VARCHAR2(8)
+
+SQL> alter table cust modify (city varchar2(12));
+
+Table altered.
+
+SQL> desc cust;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ C_ID                                               NUMBER(6)
+ C_NAMES                                            VARCHAR2(10)
+ DOB                                                DATE
+ REGDATE                                            DATE
+ BILL_AMOUNT                                        NUMBER(8,2)
+ CITY                                               VARCHAR2(12)
+
+SQL> alter table cust drop column(city,bill_mount);
+alter table cust drop column(city,bill_mount)
+                            *
+ERROR at line 1:
+ORA-00904: : invalid identifier
+
+
+SQL> alter table cust drop column(city);
+alter table cust drop column(city)
+                            *
+ERROR at line 1:
+ORA-00904: : invalid identifier
+
+
+SQL> alter table cust drop column city;
+
+Table altered.
+
+SQL> desc cust;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ C_ID                                               NUMBER(6)
+ C_NAMES                                            VARCHAR2(10)
+ DOB                                                DATE
+ REGDATE                                            DATE
+ BILL_AMOUNT                                        NUMBER(8,2)
+
+SQL> rename table cust to BankCust;
+rename table cust to BankCust
+       *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> rename cust to BankCust;
+
+Table renamed.
+
+SQL> desc cust;
+ERROR:
+ORA-04043: object cust does not exist
+
+
+SQL> desc bankcust;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ C_ID                                               NUMBER(6)
+ C_NAMES                                            VARCHAR2(10)
+ DOB                                                DATE
+ REGDATE                                            DATE
+ BILL_AMOUNT                                        NUMBER(8,2)
+
+SQL> insert into bankcust values(1234,'krishna','12-jan-1992',23000.00);
+insert into bankcust values(1234,'krishna','12-jan-1992',23000.00)
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into bankcust (c_id,c_name,dob,bill_amount)values(1234,'krishna','12-jan-1992',23000.00);
+insert into bankcust (c_id,c_name,dob,bill_amount)values(1234,'krishna','12-jan-1992',23000.00)
+                           *
+ERROR at line 1:
+ORA-00904: "C_NAME": invalid identifier
+
+
+SQL> insert into bankcust (c_id,'c_name','dob',bill_amount)values(1234,'krishna','12-jan-1992',23000.00);
+insert into bankcust (c_id,'c_name','dob',bill_amount)values(1234,'krishna','12-jan-1992',23000.00)
+                           *
+ERROR at line 1:
+ORA-01747: invalid user.table.column, table.column, or column specification
+
+
+SQL> insert into bankcust (c_id,'c_names','dob',bill_amount)values(1234,'krishna','12-jan-1992',23000.00);
+insert into bankcust (c_id,'c_names','dob',bill_amount)values(1234,'krishna','12-jan-1992',23000.00)
+                           *
+ERROR at line 1:
+ORA-01747: invalid user.table.column, table.column, or column specification
+
+
+SQL> insert into bankcust (c_id,c_names,dob,bill_amount)values(1234,'krishna','12-jan-1992',23000.00);
+
+1 row created.
+
+SQL> insert into bankcust values(&c_id,'&c_names','&dob',bill_amount);
+Enter value for c_id: 1237
+Enter value for c_names: teja
+Enter value for dob: 12-sep-1989
+old   1: insert into bankcust values(&c_id,'&c_names','&dob',bill_amount)
+new   1: insert into bankcust values(1237,'teja','12-sep-1989',bill_amount)
+insert into bankcust values(1237,'teja','12-sep-1989',bill_amount)
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into bankcust values(&c_id,'&c_names','&dob',&bill_amount);
+Enter value for c_id: 1237
+Enter value for c_names: teja
+Enter value for dob: 12-sep-1989
+Enter value for bill_amount: 5678
+old   1: insert into bankcust values(&c_id,'&c_names','&dob',&bill_amount)
+new   1: insert into bankcust values(1237,'teja','12-sep-1989',5678)
+insert into bankcust values(1237,'teja','12-sep-1989',5678)
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into bankcust (c_id,c_names,dob,bill_amount)values(1235,'teja','12-sep-1992',26000.00);
+
+1 row created.
+
+SQL> select * from banlcust;
+select * from banlcust
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select * from bankcust;
+
+      C_ID C_NAMES    DOB       REGDATE   BILL_AMOUNT
+---------- ---------- --------- --------- -----------
+      1234 krishna    12-JAN-92 22-DEC-22       23000
+      1235 teja       12-SEP-92 22-DEC-22       26000
+
+SQL> insert into bankcust (c_id,c_names,dob,bill_amount)values(1239,'teja','12-oct-1992',26500.00);
+
+1 row created.
+
+SQL> select * from bankcust;
+
+      C_ID C_NAMES    DOB       REGDATE   BILL_AMOUNT
+---------- ---------- --------- --------- -----------
+      1234 krishna    12-JAN-92 22-DEC-22       23000
+      1235 teja       12-SEP-92 22-DEC-22       26000
+      1239 teja       12-OCT-92 22-DEC-22       26500
+
+SQL> upate table bankcust modify bill_amount=30500 where c_id=1239;
+SP2-0734: unknown command beginning "upate tabl..." - rest of line ignored.
+SQL> update table bankcust modify bill_amount=30500 where c_id=1239;
+update table bankcust modify bill_amount=30500 where c_id=1239
+       *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> update bankcust modify bill_amount=30500 where c_id=1239;
+update bankcust modify bill_amount=30500 where c_id=1239
+                *
+ERROR at line 1:
+ORA-00971: missing SET keyword
+
+
+SQL> update bankcust set bill_amount=30500 where c_id=1239;
+
+1 row updated.
+
+SQL> select * from bankcust;
+
+      C_ID C_NAMES    DOB       REGDATE   BILL_AMOUNT
+---------- ---------- --------- --------- -----------
+      1234 krishna    12-JAN-92 22-DEC-22       23000
+      1235 teja       12-SEP-92 22-DEC-22       26000
+      1239 teja       12-OCT-92 22-DEC-22       30500
+
+SQL> delete from bankcust where c_id=1235;
+
+1 row deleted.
+
+SQL> select * from bankcust;
+
+      C_ID C_NAMES    DOB       REGDATE   BILL_AMOUNT
+---------- ---------- --------- --------- -----------
+      1234 krishna    12-JAN-92 22-DEC-22       23000
+      1239 teja       12-OCT-92 22-DEC-22       30500
+
+SQL> select c_id,c_names,bil_amount from bankcust;
+select c_id,c_names,bil_amount from bankcust
+                    *
+ERROR at line 1:
+ORA-00904: "BIL_AMOUNT": invalid identifier
+
+
+SQL> select c_id,c_names,bill_amount from bankcust;
+
+      C_ID C_NAMES    BILL_AMOUNT
+---------- ---------- -----------
+      1234 krishna          23000
+      1239 teja             30500
+
+SQL> create user java6pm identifed by java6pm;
+create user java6pm identifed by java6pm
+                    *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user java6pm identified by java6pm;
+
+User created.
+
+SQL> grant  CREATE SESSION to java6pm;
+
+Grant succeeded.
+
+SQL> revoke  CREATE SESSION from java6pm;
+
+Revoke succeeded.
+
+SQL> select * from bankcust;
+
+      C_ID C_NAMES    DOB       REGDATE   BILL_AMOUNT
+---------- ---------- --------- --------- -----------
+      1234 krishna    12-JAN-92 22-DEC-22       23000
+      1239 teja       12-OCT-92 22-DEC-22       30500
+
+SQL> savepoint mybackup;
+
+Savepoint created.
+
+SQL> delete from bankcust where c_id=1234;
+
+1 row deleted.
+
+SQL> delete from bankcust where c_id=1239;
+
+1 row deleted.
+
+SQL> select * from bankcust;
+
+no rows selected
+
+SQL> roll back to mybackup;
+Rollback complete.
+SQL> select * from bankcust;
+
+      C_ID C_NAMES    DOB       REGDATE   BILL_AMOUNT
+---------- ---------- --------- --------- -----------
+      1234 krishna    12-JAN-92 22-DEC-22       23000
+      1239 teja       12-OCT-92 22-DEC-22       30500
+
+SQL> truncate table bankcust;
+
+Table truncated.
+
+SQL> select * from bankcust;
+
+no rows selected
+
+SQL> desc bankcust;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ C_ID                                               NUMBER(6)
+ C_NAMES                                            VARCHAR2(10)
+ DOB                                                DATE
+ REGDATE                                            DATE
+ BILL_AMOUNT                                        NUMBER(8,2)
+
+SQL> drop table bankcust;
+
+Table dropped.
+
+SQL> select * from bankcust;
+select * from bankcust
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> desc bankcust;
+ERROR:
+ORA-04043: object bankcust does not exist
+
+
+SQL> commit;
+
+Commit complete.
+
+SQL> create table stu(s_id number(5),sname varchar2(8),fee number(8,2));
+
+Table created.
+
+SQL> insert into stu values(1238,'krishna',3289.90);
+
+1 row created.
+
+SQL> insert into stu values(&s_id,'&sname',&fee);
+Enter value for s_id: 1236
+Enter value for sname: swetha
+Enter value for fee: 8908
+old   1: insert into stu values(&s_id,'&sname',&fee)
+new   1: insert into stu values(1236,'swetha',8908)
+
+1 row created.
+
+SQL> /
+Enter value for s_id: 1267
+Enter value for sname: pavan
+Enter value for fee: 1200
+old   1: insert into stu values(&s_id,'&sname',&fee)
+new   1: insert into stu values(1267,'pavan',1200)
+
+1 row created.
+
+SQL> /
+Enter value for s_id: 1689
+Enter value for sname: kamal
+Enter value for fee: 89000.67
+old   1: insert into stu values(&s_id,'&sname',&fee)
+new   1: insert into stu values(1689,'kamal',89000.67)
+
+1 row created.
+
+SQL> connect
+Enter user-name: hr
+Enter password:
+ERROR:
+ORA-28000: the account is locked
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect
+Enter user-name: system
+Enter password:
+ERROR:
+ORA-28002: the password will expire within 7 days
+
+
+Connected.
+SQL> alter user hr identified by hr account unlock;
+
+User altered.
+
+SQL> conn
+Enter user-name: hr
+Enter password:
+Connected.
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+COUNTRIES                      TABLE
+DEPARTMENTS                    TABLE
+EMPLOYEES                      TABLE
+EMP_DETAILS_VIEW               VIEW
+JOBS                           TABLE
+JOB_HISTORY                    TABLE
+LOCATIONS                      TABLE
+REGIONS                        TABLE
+
+8 rows selected.
+
+SQL> desc Employees;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPLOYEE_ID                               NOT NULL NUMBER(6)
+ FIRST_NAME                                         VARCHAR2(20)
+ LAST_NAME                                 NOT NULL VARCHAR2(25)
+ EMAIL                                     NOT NULL VARCHAR2(25)
+ PHONE_NUMBER                                       VARCHAR2(20)
+ HIRE_DATE                                 NOT NULL DATE
+ JOB_ID                                    NOT NULL VARCHAR2(10)
+ SALARY                                             NUMBER(8,2)
+ COMMISSION_PCT                                     NUMBER(2,2)
+ MANAGER_ID                                         NUMBER(6)
+ DEPARTMENT_ID                                      NUMBER(4)
+
+SQL> select employee_id,first_name,hire_date,salary from employees;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        100 Steven               17-JUN-03      24000
+        101 Neena                21-SEP-05      17000
+        102 Lex                  13-JAN-01      17000
+        103 Alexander            03-JAN-06       9000
+        104 Bruce                21-MAY-07       6000
+        105 David                25-JUN-05       4800
+        106 Valli                05-FEB-06       4800
+        107 Diana                07-FEB-07       4200
+        108 Nancy                17-AUG-02      12008
+        109 Daniel               16-AUG-02       9000
+        110 John                 28-SEP-05       8200
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        111 Ismael               30-SEP-05       7700
+        112 Jose Manuel          07-MAR-06       7800
+        113 Luis                 07-DEC-07       6900
+        114 Den                  07-DEC-02      11000
+        115 Alexander            18-MAY-03       3100
+        116 Shelli               24-DEC-05       2900
+        117 Sigal                24-JUL-05       2800
+        118 Guy                  15-NOV-06       2600
+        119 Karen                10-AUG-07       2500
+        120 Matthew              18-JUL-04       8000
+        121 Adam                 10-APR-05       8200
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        122 Payam                01-MAY-03       7900
+        123 Shanta               10-OCT-05       6500
+        124 Kevin                16-NOV-07       5800
+        125 Julia                16-JUL-05       3200
+        126 Irene                28-SEP-06       2700
+        127 James                14-JAN-07       2400
+        128 Steven               08-MAR-08       2200
+        129 Laura                20-AUG-05       3300
+        130 Mozhe                30-OCT-05       2800
+        131 James                16-FEB-05       2500
+        132 TJ                   10-APR-07       2100
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        133 Jason                14-JUN-04       3300
+        134 Michael              26-AUG-06       2900
+        135 Ki                   12-DEC-07       2400
+        136 Hazel                06-FEB-08       2200
+        137 Renske               14-JUL-03       3600
+        138 Stephen              26-OCT-05       3200
+        139 John                 12-FEB-06       2700
+        140 Joshua               06-APR-06       2500
+        141 Trenna               17-OCT-03       3500
+        142 Curtis               29-JAN-05       3100
+        143 Randall              15-MAR-06       2600
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        144 Peter                09-JUL-06       2500
+        145 John                 01-OCT-04      14000
+        146 Karen                05-JAN-05      13500
+        147 Alberto              10-MAR-05      12000
+        148 Gerald               15-OCT-07      11000
+        149 Eleni                29-JAN-08      10500
+        150 Peter                30-JAN-05      10000
+        151 David                24-MAR-05       9500
+        152 Peter                20-AUG-05       9000
+        153 Christopher          30-MAR-06       8000
+        154 Nanette              09-DEC-06       7500
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        155 Oliver               23-NOV-07       7000
+        156 Janette              30-JAN-04      10000
+        157 Patrick              04-MAR-04       9500
+        158 Allan                01-AUG-04       9000
+        159 Lindsey              10-MAR-05       8000
+        160 Louise               15-DEC-05       7500
+        161 Sarath               03-NOV-06       7000
+        162 Clara                11-NOV-05      10500
+        163 Danielle             19-MAR-07       9500
+        164 Mattea               24-JAN-08       7200
+        165 David                23-FEB-08       6800
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        166 Sundar               24-MAR-08       6400
+        167 Amit                 21-APR-08       6200
+        168 Lisa                 11-MAR-05      11500
+        169 Harrison             23-MAR-06      10000
+        170 Tayler               24-JAN-06       9600
+        171 William              23-FEB-07       7400
+        172 Elizabeth            24-MAR-07       7300
+        173 Sundita              21-APR-08       6100
+        174 Ellen                11-MAY-04      11000
+        175 Alyssa               19-MAR-05       8800
+        176 Jonathon             24-MAR-06       8600
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        177 Jack                 23-APR-06       8400
+        178 Kimberely            24-MAY-07       7000
+        179 Charles              04-JAN-08       6200
+        180 Winston              24-JAN-06       3200
+        181 Jean                 23-FEB-06       3100
+        182 Martha               21-JUN-07       2500
+        183 Girard               03-FEB-08       2800
+        184 Nandita              27-JAN-04       4200
+        185 Alexis               20-FEB-05       4100
+        186 Julia                24-JUN-06       3400
+        187 Anthony              07-FEB-07       3000
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        188 Kelly                14-JUN-05       3800
+        189 Jennifer             13-AUG-05       3600
+        190 Timothy              11-JUL-06       2900
+        191 Randall              19-DEC-07       2500
+        192 Sarah                04-FEB-04       4000
+        193 Britney              03-MAR-05       3900
+        194 Samuel               01-JUL-06       3200
+        195 Vance                17-MAR-07       2800
+        196 Alana                24-APR-06       3100
+        197 Kevin                23-MAY-06       3000
+        198 Donald               21-JUN-07       2600
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        199 Douglas              13-JAN-08       2600
+        200 Jennifer             17-SEP-03       4400
+        201 Michael              17-FEB-04      13000
+        202 Pat                  17-AUG-05       6000
+        203 Susan                07-JUN-02       6500
+        204 Hermann              07-JUN-02      10000
+        205 Shelley              07-JUN-02      12008
+        206 William              07-JUN-02       8300
+
+107 rows selected.
+
+SQL> set pagesize 100;
+SQL> select employee_id,first_name,hire_date,salary from employees;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        100 Steven               17-JUN-03      24000
+        101 Neena                21-SEP-05      17000
+        102 Lex                  13-JAN-01      17000
+        103 Alexander            03-JAN-06       9000
+        104 Bruce                21-MAY-07       6000
+        105 David                25-JUN-05       4800
+        106 Valli                05-FEB-06       4800
+        107 Diana                07-FEB-07       4200
+        108 Nancy                17-AUG-02      12008
+        109 Daniel               16-AUG-02       9000
+        110 John                 28-SEP-05       8200
+        111 Ismael               30-SEP-05       7700
+        112 Jose Manuel          07-MAR-06       7800
+        113 Luis                 07-DEC-07       6900
+        114 Den                  07-DEC-02      11000
+        115 Alexander            18-MAY-03       3100
+        116 Shelli               24-DEC-05       2900
+        117 Sigal                24-JUL-05       2800
+        118 Guy                  15-NOV-06       2600
+        119 Karen                10-AUG-07       2500
+        120 Matthew              18-JUL-04       8000
+        121 Adam                 10-APR-05       8200
+        122 Payam                01-MAY-03       7900
+        123 Shanta               10-OCT-05       6500
+        124 Kevin                16-NOV-07       5800
+        125 Julia                16-JUL-05       3200
+        126 Irene                28-SEP-06       2700
+        127 James                14-JAN-07       2400
+        128 Steven               08-MAR-08       2200
+        129 Laura                20-AUG-05       3300
+        130 Mozhe                30-OCT-05       2800
+        131 James                16-FEB-05       2500
+        132 TJ                   10-APR-07       2100
+        133 Jason                14-JUN-04       3300
+        134 Michael              26-AUG-06       2900
+        135 Ki                   12-DEC-07       2400
+        136 Hazel                06-FEB-08       2200
+        137 Renske               14-JUL-03       3600
+        138 Stephen              26-OCT-05       3200
+        139 John                 12-FEB-06       2700
+        140 Joshua               06-APR-06       2500
+        141 Trenna               17-OCT-03       3500
+        142 Curtis               29-JAN-05       3100
+        143 Randall              15-MAR-06       2600
+        144 Peter                09-JUL-06       2500
+        145 John                 01-OCT-04      14000
+        146 Karen                05-JAN-05      13500
+        147 Alberto              10-MAR-05      12000
+        148 Gerald               15-OCT-07      11000
+        149 Eleni                29-JAN-08      10500
+        150 Peter                30-JAN-05      10000
+        151 David                24-MAR-05       9500
+        152 Peter                20-AUG-05       9000
+        153 Christopher          30-MAR-06       8000
+        154 Nanette              09-DEC-06       7500
+        155 Oliver               23-NOV-07       7000
+        156 Janette              30-JAN-04      10000
+        157 Patrick              04-MAR-04       9500
+        158 Allan                01-AUG-04       9000
+        159 Lindsey              10-MAR-05       8000
+        160 Louise               15-DEC-05       7500
+        161 Sarath               03-NOV-06       7000
+        162 Clara                11-NOV-05      10500
+        163 Danielle             19-MAR-07       9500
+        164 Mattea               24-JAN-08       7200
+        165 David                23-FEB-08       6800
+        166 Sundar               24-MAR-08       6400
+        167 Amit                 21-APR-08       6200
+        168 Lisa                 11-MAR-05      11500
+        169 Harrison             23-MAR-06      10000
+        170 Tayler               24-JAN-06       9600
+        171 William              23-FEB-07       7400
+        172 Elizabeth            24-MAR-07       7300
+        173 Sundita              21-APR-08       6100
+        174 Ellen                11-MAY-04      11000
+        175 Alyssa               19-MAR-05       8800
+        176 Jonathon             24-MAR-06       8600
+        177 Jack                 23-APR-06       8400
+        178 Kimberely            24-MAY-07       7000
+        179 Charles              04-JAN-08       6200
+        180 Winston              24-JAN-06       3200
+        181 Jean                 23-FEB-06       3100
+        182 Martha               21-JUN-07       2500
+        183 Girard               03-FEB-08       2800
+        184 Nandita              27-JAN-04       4200
+        185 Alexis               20-FEB-05       4100
+        186 Julia                24-JUN-06       3400
+        187 Anthony              07-FEB-07       3000
+        188 Kelly                14-JUN-05       3800
+        189 Jennifer             13-AUG-05       3600
+        190 Timothy              11-JUL-06       2900
+        191 Randall              19-DEC-07       2500
+        192 Sarah                04-FEB-04       4000
+        193 Britney              03-MAR-05       3900
+        194 Samuel               01-JUL-06       3200
+        195 Vance                17-MAR-07       2800
+        196 Alana                24-APR-06       3100
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        197 Kevin                23-MAY-06       3000
+        198 Donald               21-JUN-07       2600
+        199 Douglas              13-JAN-08       2600
+        200 Jennifer             17-SEP-03       4400
+        201 Michael              17-FEB-04      13000
+        202 Pat                  17-AUG-05       6000
+        203 Susan                07-JUN-02       6500
+        204 Hermann              07-JUN-02      10000
+        205 Shelley              07-JUN-02      12008
+        206 William              07-JUN-02       8300
+
+107 rows selected.
+
+SQL> select employee_id,first_name,hire_date,salary from employees where employee_id=200;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        200 Jennifer             17-SEP-03       4400
+
+SQL> select employee_id,first_name,hire_date,salary from employees where salay>=12000;
+select employee_id,first_name,hire_date,salary from employees where salay>=12000
+                                                                    *
+ERROR at line 1:
+ORA-00904: "SALAY": invalid identifier
+
+
+SQL> select employee_id,first_name,hire_date,salary from employees where salary>=12000;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        100 Steven               17-JUN-03      24000
+        101 Neena                21-SEP-05      17000
+        102 Lex                  13-JAN-01      17000
+        108 Nancy                17-AUG-02      12008
+        145 John                 01-OCT-04      14000
+        146 Karen                05-JAN-05      13500
+        147 Alberto              10-MAR-05      12000
+        201 Michael              17-FEB-04      13000
+        205 Shelley              07-JUN-02      12008
+
+9 rows selected.
+
+SQL> select employee_id,first_name,hire_date,salary from employees where salary<=1000;
+
+no rows selected
+
+SQL> select employee_id,first_name,hire_date,salary from employees where salary<=3000;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        116 Shelli               24-DEC-05       2900
+        117 Sigal                24-JUL-05       2800
+        118 Guy                  15-NOV-06       2600
+        119 Karen                10-AUG-07       2500
+        126 Irene                28-SEP-06       2700
+        127 James                14-JAN-07       2400
+        128 Steven               08-MAR-08       2200
+        130 Mozhe                30-OCT-05       2800
+        131 James                16-FEB-05       2500
+        132 TJ                   10-APR-07       2100
+        134 Michael              26-AUG-06       2900
+        135 Ki                   12-DEC-07       2400
+        136 Hazel                06-FEB-08       2200
+        139 John                 12-FEB-06       2700
+        140 Joshua               06-APR-06       2500
+        143 Randall              15-MAR-06       2600
+        144 Peter                09-JUL-06       2500
+        182 Martha               21-JUN-07       2500
+        183 Girard               03-FEB-08       2800
+        187 Anthony              07-FEB-07       3000
+        190 Timothy              11-JUL-06       2900
+        191 Randall              19-DEC-07       2500
+        195 Vance                17-MAR-07       2800
+        197 Kevin                23-MAY-06       3000
+        198 Donald               21-JUN-07       2600
+        199 Douglas              13-JAN-08       2600
+
+26 rows selected.
+
+SQL> select employee_id,first_name,hire_date,salary,salary+1000 from employees;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY SALARY+1000
+----------- -------------------- --------- ---------- -----------
+        100 Steven               17-JUN-03      24000       25000
+        101 Neena                21-SEP-05      17000       18000
+        102 Lex                  13-JAN-01      17000       18000
+        103 Alexander            03-JAN-06       9000       10000
+        104 Bruce                21-MAY-07       6000        7000
+        105 David                25-JUN-05       4800        5800
+        106 Valli                05-FEB-06       4800        5800
+        107 Diana                07-FEB-07       4200        5200
+        108 Nancy                17-AUG-02      12008       13008
+        109 Daniel               16-AUG-02       9000       10000
+        110 John                 28-SEP-05       8200        9200
+        111 Ismael               30-SEP-05       7700        8700
+        112 Jose Manuel          07-MAR-06       7800        8800
+        113 Luis                 07-DEC-07       6900        7900
+        114 Den                  07-DEC-02      11000       12000
+        115 Alexander            18-MAY-03       3100        4100
+        116 Shelli               24-DEC-05       2900        3900
+        117 Sigal                24-JUL-05       2800        3800
+        118 Guy                  15-NOV-06       2600        3600
+        119 Karen                10-AUG-07       2500        3500
+        120 Matthew              18-JUL-04       8000        9000
+        121 Adam                 10-APR-05       8200        9200
+        122 Payam                01-MAY-03       7900        8900
+        123 Shanta               10-OCT-05       6500        7500
+        124 Kevin                16-NOV-07       5800        6800
+        125 Julia                16-JUL-05       3200        4200
+        126 Irene                28-SEP-06       2700        3700
+        127 James                14-JAN-07       2400        3400
+        128 Steven               08-MAR-08       2200        3200
+        129 Laura                20-AUG-05       3300        4300
+        130 Mozhe                30-OCT-05       2800        3800
+        131 James                16-FEB-05       2500        3500
+        132 TJ                   10-APR-07       2100        3100
+        133 Jason                14-JUN-04       3300        4300
+        134 Michael              26-AUG-06       2900        3900
+        135 Ki                   12-DEC-07       2400        3400
+        136 Hazel                06-FEB-08       2200        3200
+        137 Renske               14-JUL-03       3600        4600
+        138 Stephen              26-OCT-05       3200        4200
+        139 John                 12-FEB-06       2700        3700
+        140 Joshua               06-APR-06       2500        3500
+        141 Trenna               17-OCT-03       3500        4500
+        142 Curtis               29-JAN-05       3100        4100
+        143 Randall              15-MAR-06       2600        3600
+        144 Peter                09-JUL-06       2500        3500
+        145 John                 01-OCT-04      14000       15000
+        146 Karen                05-JAN-05      13500       14500
+        147 Alberto              10-MAR-05      12000       13000
+        148 Gerald               15-OCT-07      11000       12000
+        149 Eleni                29-JAN-08      10500       11500
+        150 Peter                30-JAN-05      10000       11000
+        151 David                24-MAR-05       9500       10500
+        152 Peter                20-AUG-05       9000       10000
+        153 Christopher          30-MAR-06       8000        9000
+        154 Nanette              09-DEC-06       7500        8500
+        155 Oliver               23-NOV-07       7000        8000
+        156 Janette              30-JAN-04      10000       11000
+        157 Patrick              04-MAR-04       9500       10500
+        158 Allan                01-AUG-04       9000       10000
+        159 Lindsey              10-MAR-05       8000        9000
+        160 Louise               15-DEC-05       7500        8500
+        161 Sarath               03-NOV-06       7000        8000
+        162 Clara                11-NOV-05      10500       11500
+        163 Danielle             19-MAR-07       9500       10500
+        164 Mattea               24-JAN-08       7200        8200
+        165 David                23-FEB-08       6800        7800
+        166 Sundar               24-MAR-08       6400        7400
+        167 Amit                 21-APR-08       6200        7200
+        168 Lisa                 11-MAR-05      11500       12500
+        169 Harrison             23-MAR-06      10000       11000
+        170 Tayler               24-JAN-06       9600       10600
+        171 William              23-FEB-07       7400        8400
+        172 Elizabeth            24-MAR-07       7300        8300
+        173 Sundita              21-APR-08       6100        7100
+        174 Ellen                11-MAY-04      11000       12000
+        175 Alyssa               19-MAR-05       8800        9800
+        176 Jonathon             24-MAR-06       8600        9600
+        177 Jack                 23-APR-06       8400        9400
+        178 Kimberely            24-MAY-07       7000        8000
+        179 Charles              04-JAN-08       6200        7200
+        180 Winston              24-JAN-06       3200        4200
+        181 Jean                 23-FEB-06       3100        4100
+        182 Martha               21-JUN-07       2500        3500
+        183 Girard               03-FEB-08       2800        3800
+        184 Nandita              27-JAN-04       4200        5200
+        185 Alexis               20-FEB-05       4100        5100
+        186 Julia                24-JUN-06       3400        4400
+        187 Anthony              07-FEB-07       3000        4000
+        188 Kelly                14-JUN-05       3800        4800
+        189 Jennifer             13-AUG-05       3600        4600
+        190 Timothy              11-JUL-06       2900        3900
+        191 Randall              19-DEC-07       2500        3500
+        192 Sarah                04-FEB-04       4000        5000
+        193 Britney              03-MAR-05       3900        4900
+        194 Samuel               01-JUL-06       3200        4200
+        195 Vance                17-MAR-07       2800        3800
+        196 Alana                24-APR-06       3100        4100
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY SALARY+1000
+----------- -------------------- --------- ---------- -----------
+        197 Kevin                23-MAY-06       3000        4000
+        198 Donald               21-JUN-07       2600        3600
+        199 Douglas              13-JAN-08       2600        3600
+        200 Jennifer             17-SEP-03       4400        5400
+        201 Michael              17-FEB-04      13000       14000
+        202 Pat                  17-AUG-05       6000        7000
+        203 Susan                07-JUN-02       6500        7500
+        204 Hermann              07-JUN-02      10000       11000
+        205 Shelley              07-JUN-02      12008       13008
+        206 William              07-JUN-02       8300        9300
+
+107 rows selected.
+
+SQL> select employee_id,first_name,hire_date,salary,salary+1000 as Bounusamount from employees;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY BOUNUSAMOUNT
+----------- -------------------- --------- ---------- ------------
+        100 Steven               17-JUN-03      24000        25000
+        101 Neena                21-SEP-05      17000        18000
+        102 Lex                  13-JAN-01      17000        18000
+        103 Alexander            03-JAN-06       9000        10000
+        104 Bruce                21-MAY-07       6000         7000
+        105 David                25-JUN-05       4800         5800
+        106 Valli                05-FEB-06       4800         5800
+        107 Diana                07-FEB-07       4200         5200
+        108 Nancy                17-AUG-02      12008        13008
+        109 Daniel               16-AUG-02       9000        10000
+        110 John                 28-SEP-05       8200         9200
+        111 Ismael               30-SEP-05       7700         8700
+        112 Jose Manuel          07-MAR-06       7800         8800
+        113 Luis                 07-DEC-07       6900         7900
+        114 Den                  07-DEC-02      11000        12000
+        115 Alexander            18-MAY-03       3100         4100
+        116 Shelli               24-DEC-05       2900         3900
+        117 Sigal                24-JUL-05       2800         3800
+        118 Guy                  15-NOV-06       2600         3600
+        119 Karen                10-AUG-07       2500         3500
+        120 Matthew              18-JUL-04       8000         9000
+        121 Adam                 10-APR-05       8200         9200
+        122 Payam                01-MAY-03       7900         8900
+        123 Shanta               10-OCT-05       6500         7500
+        124 Kevin                16-NOV-07       5800         6800
+        125 Julia                16-JUL-05       3200         4200
+        126 Irene                28-SEP-06       2700         3700
+        127 James                14-JAN-07       2400         3400
+        128 Steven               08-MAR-08       2200         3200
+        129 Laura                20-AUG-05       3300         4300
+        130 Mozhe                30-OCT-05       2800         3800
+        131 James                16-FEB-05       2500         3500
+        132 TJ                   10-APR-07       2100         3100
+        133 Jason                14-JUN-04       3300         4300
+        134 Michael              26-AUG-06       2900         3900
+        135 Ki                   12-DEC-07       2400         3400
+        136 Hazel                06-FEB-08       2200         3200
+        137 Renske               14-JUL-03       3600         4600
+        138 Stephen              26-OCT-05       3200         4200
+        139 John                 12-FEB-06       2700         3700
+        140 Joshua               06-APR-06       2500         3500
+        141 Trenna               17-OCT-03       3500         4500
+        142 Curtis               29-JAN-05       3100         4100
+        143 Randall              15-MAR-06       2600         3600
+        144 Peter                09-JUL-06       2500         3500
+        145 John                 01-OCT-04      14000        15000
+        146 Karen                05-JAN-05      13500        14500
+        147 Alberto              10-MAR-05      12000        13000
+        148 Gerald               15-OCT-07      11000        12000
+        149 Eleni                29-JAN-08      10500        11500
+        150 Peter                30-JAN-05      10000        11000
+        151 David                24-MAR-05       9500        10500
+        152 Peter                20-AUG-05       9000        10000
+        153 Christopher          30-MAR-06       8000         9000
+        154 Nanette              09-DEC-06       7500         8500
+        155 Oliver               23-NOV-07       7000         8000
+        156 Janette              30-JAN-04      10000        11000
+        157 Patrick              04-MAR-04       9500        10500
+        158 Allan                01-AUG-04       9000        10000
+        159 Lindsey              10-MAR-05       8000         9000
+        160 Louise               15-DEC-05       7500         8500
+        161 Sarath               03-NOV-06       7000         8000
+        162 Clara                11-NOV-05      10500        11500
+        163 Danielle             19-MAR-07       9500        10500
+        164 Mattea               24-JAN-08       7200         8200
+        165 David                23-FEB-08       6800         7800
+        166 Sundar               24-MAR-08       6400         7400
+        167 Amit                 21-APR-08       6200         7200
+        168 Lisa                 11-MAR-05      11500        12500
+        169 Harrison             23-MAR-06      10000        11000
+        170 Tayler               24-JAN-06       9600        10600
+        171 William              23-FEB-07       7400         8400
+        172 Elizabeth            24-MAR-07       7300         8300
+        173 Sundita              21-APR-08       6100         7100
+        174 Ellen                11-MAY-04      11000        12000
+        175 Alyssa               19-MAR-05       8800         9800
+        176 Jonathon             24-MAR-06       8600         9600
+        177 Jack                 23-APR-06       8400         9400
+        178 Kimberely            24-MAY-07       7000         8000
+        179 Charles              04-JAN-08       6200         7200
+        180 Winston              24-JAN-06       3200         4200
+        181 Jean                 23-FEB-06       3100         4100
+        182 Martha               21-JUN-07       2500         3500
+        183 Girard               03-FEB-08       2800         3800
+        184 Nandita              27-JAN-04       4200         5200
+        185 Alexis               20-FEB-05       4100         5100
+        186 Julia                24-JUN-06       3400         4400
+        187 Anthony              07-FEB-07       3000         4000
+        188 Kelly                14-JUN-05       3800         4800
+        189 Jennifer             13-AUG-05       3600         4600
+        190 Timothy              11-JUL-06       2900         3900
+        191 Randall              19-DEC-07       2500         3500
+        192 Sarah                04-FEB-04       4000         5000
+        193 Britney              03-MAR-05       3900         4900
+        194 Samuel               01-JUL-06       3200         4200
+        195 Vance                17-MAR-07       2800         3800
+        196 Alana                24-APR-06       3100         4100
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY BOUNUSAMOUNT
+----------- -------------------- --------- ---------- ------------
+        197 Kevin                23-MAY-06       3000         4000
+        198 Donald               21-JUN-07       2600         3600
+        199 Douglas              13-JAN-08       2600         3600
+        200 Jennifer             17-SEP-03       4400         5400
+        201 Michael              17-FEB-04      13000        14000
+        202 Pat                  17-AUG-05       6000         7000
+        203 Susan                07-JUN-02       6500         7500
+        204 Hermann              07-JUN-02      10000        11000
+        205 Shelley              07-JUN-02      12008        13008
+        206 William              07-JUN-02       8300         9300
+
+107 rows selected.
+
+SQL> select employee_id,first_name,hire_date,salary,salary*12 as anunalsalamount from employees;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY ANUNALSALAMOUNT
+----------- -------------------- --------- ---------- ---------------
+        100 Steven               17-JUN-03      24000          288000
+        101 Neena                21-SEP-05      17000          204000
+        102 Lex                  13-JAN-01      17000          204000
+        103 Alexander            03-JAN-06       9000          108000
+        104 Bruce                21-MAY-07       6000           72000
+        105 David                25-JUN-05       4800           57600
+        106 Valli                05-FEB-06       4800           57600
+        107 Diana                07-FEB-07       4200           50400
+        108 Nancy                17-AUG-02      12008          144096
+        109 Daniel               16-AUG-02       9000          108000
+        110 John                 28-SEP-05       8200           98400
+        111 Ismael               30-SEP-05       7700           92400
+        112 Jose Manuel          07-MAR-06       7800           93600
+        113 Luis                 07-DEC-07       6900           82800
+        114 Den                  07-DEC-02      11000          132000
+        115 Alexander            18-MAY-03       3100           37200
+        116 Shelli               24-DEC-05       2900           34800
+        117 Sigal                24-JUL-05       2800           33600
+        118 Guy                  15-NOV-06       2600           31200
+        119 Karen                10-AUG-07       2500           30000
+        120 Matthew              18-JUL-04       8000           96000
+        121 Adam                 10-APR-05       8200           98400
+        122 Payam                01-MAY-03       7900           94800
+        123 Shanta               10-OCT-05       6500           78000
+        124 Kevin                16-NOV-07       5800           69600
+        125 Julia                16-JUL-05       3200           38400
+        126 Irene                28-SEP-06       2700           32400
+        127 James                14-JAN-07       2400           28800
+        128 Steven               08-MAR-08       2200           26400
+        129 Laura                20-AUG-05       3300           39600
+        130 Mozhe                30-OCT-05       2800           33600
+        131 James                16-FEB-05       2500           30000
+        132 TJ                   10-APR-07       2100           25200
+        133 Jason                14-JUN-04       3300           39600
+        134 Michael              26-AUG-06       2900           34800
+        135 Ki                   12-DEC-07       2400           28800
+        136 Hazel                06-FEB-08       2200           26400
+        137 Renske               14-JUL-03       3600           43200
+        138 Stephen              26-OCT-05       3200           38400
+        139 John                 12-FEB-06       2700           32400
+        140 Joshua               06-APR-06       2500           30000
+        141 Trenna               17-OCT-03       3500           42000
+        142 Curtis               29-JAN-05       3100           37200
+        143 Randall              15-MAR-06       2600           31200
+        144 Peter                09-JUL-06       2500           30000
+        145 John                 01-OCT-04      14000          168000
+        146 Karen                05-JAN-05      13500          162000
+        147 Alberto              10-MAR-05      12000          144000
+        148 Gerald               15-OCT-07      11000          132000
+        149 Eleni                29-JAN-08      10500          126000
+        150 Peter                30-JAN-05      10000          120000
+        151 David                24-MAR-05       9500          114000
+        152 Peter                20-AUG-05       9000          108000
+        153 Christopher          30-MAR-06       8000           96000
+        154 Nanette              09-DEC-06       7500           90000
+        155 Oliver               23-NOV-07       7000           84000
+        156 Janette              30-JAN-04      10000          120000
+        157 Patrick              04-MAR-04       9500          114000
+        158 Allan                01-AUG-04       9000          108000
+        159 Lindsey              10-MAR-05       8000           96000
+        160 Louise               15-DEC-05       7500           90000
+        161 Sarath               03-NOV-06       7000           84000
+        162 Clara                11-NOV-05      10500          126000
+        163 Danielle             19-MAR-07       9500          114000
+        164 Mattea               24-JAN-08       7200           86400
+        165 David                23-FEB-08       6800           81600
+        166 Sundar               24-MAR-08       6400           76800
+        167 Amit                 21-APR-08       6200           74400
+        168 Lisa                 11-MAR-05      11500          138000
+        169 Harrison             23-MAR-06      10000          120000
+        170 Tayler               24-JAN-06       9600          115200
+        171 William              23-FEB-07       7400           88800
+        172 Elizabeth            24-MAR-07       7300           87600
+        173 Sundita              21-APR-08       6100           73200
+        174 Ellen                11-MAY-04      11000          132000
+        175 Alyssa               19-MAR-05       8800          105600
+        176 Jonathon             24-MAR-06       8600          103200
+        177 Jack                 23-APR-06       8400          100800
+        178 Kimberely            24-MAY-07       7000           84000
+        179 Charles              04-JAN-08       6200           74400
+        180 Winston              24-JAN-06       3200           38400
+        181 Jean                 23-FEB-06       3100           37200
+        182 Martha               21-JUN-07       2500           30000
+        183 Girard               03-FEB-08       2800           33600
+        184 Nandita              27-JAN-04       4200           50400
+        185 Alexis               20-FEB-05       4100           49200
+        186 Julia                24-JUN-06       3400           40800
+        187 Anthony              07-FEB-07       3000           36000
+        188 Kelly                14-JUN-05       3800           45600
+        189 Jennifer             13-AUG-05       3600           43200
+        190 Timothy              11-JUL-06       2900           34800
+        191 Randall              19-DEC-07       2500           30000
+        192 Sarah                04-FEB-04       4000           48000
+        193 Britney              03-MAR-05       3900           46800
+        194 Samuel               01-JUL-06       3200           38400
+        195 Vance                17-MAR-07       2800           33600
+        196 Alana                24-APR-06       3100           37200
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY ANUNALSALAMOUNT
+----------- -------------------- --------- ---------- ---------------
+        197 Kevin                23-MAY-06       3000           36000
+        198 Donald               21-JUN-07       2600           31200
+        199 Douglas              13-JAN-08       2600           31200
+        200 Jennifer             17-SEP-03       4400           52800
+        201 Michael              17-FEB-04      13000          156000
+        202 Pat                  17-AUG-05       6000           72000
+        203 Susan                07-JUN-02       6500           78000
+        204 Hermann              07-JUN-02      10000          120000
+        205 Shelley              07-JUN-02      12008          144096
+        206 William              07-JUN-02       8300           99600
+
+107 rows selected.
+
+SQL> select employee_id,first_name,hire_date,salary from employees where salary<=3000;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        116 Shelli               24-DEC-05       2900
+        117 Sigal                24-JUL-05       2800
+        118 Guy                  15-NOV-06       2600
+        119 Karen                10-AUG-07       2500
+        126 Irene                28-SEP-06       2700
+        127 James                14-JAN-07       2400
+        128 Steven               08-MAR-08       2200
+        130 Mozhe                30-OCT-05       2800
+        131 James                16-FEB-05       2500
+        132 TJ                   10-APR-07       2100
+        134 Michael              26-AUG-06       2900
+        135 Ki                   12-DEC-07       2400
+        136 Hazel                06-FEB-08       2200
+        139 John                 12-FEB-06       2700
+        140 Joshua               06-APR-06       2500
+        143 Randall              15-MAR-06       2600
+        144 Peter                09-JUL-06       2500
+        182 Martha               21-JUN-07       2500
+        183 Girard               03-FEB-08       2800
+        187 Anthony              07-FEB-07       3000
+        190 Timothy              11-JUL-06       2900
+        191 Randall              19-DEC-07       2500
+        195 Vance                17-MAR-07       2800
+        197 Kevin                23-MAY-06       3000
+        198 Donald               21-JUN-07       2600
+        199 Douglas              13-JAN-08       2600
+
+26 rows selected.
+
+SQL> select employee_id,first_name,hire_date,salary from employees where first_name like 'J%';
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        110 John                 28-SEP-05       8200
+        186 Julia                24-JUN-06       3400
+        189 Jennifer             13-AUG-05       3600
+        181 Jean                 23-FEB-06       3100
+        156 Janette              30-JAN-04      10000
+        127 James                14-JAN-07       2400
+        177 Jack                 23-APR-06       8400
+        133 Jason                14-JUN-04       3300
+        131 James                16-FEB-05       2500
+        125 Julia                16-JUL-05       3200
+        140 Joshua               06-APR-06       2500
+        145 John                 01-OCT-04      14000
+        139 John                 12-FEB-06       2700
+        176 Jonathon             24-MAR-06       8600
+        112 Jose Manuel          07-MAR-06       7800
+        200 Jennifer             17-SEP-03       4400
+
+16 rows selected.
+
+SQL> select employee_id,first_name,hire_date,salary from employees where first_name like '%r';
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        103 Alexander            03-JAN-06       9000
+        115 Alexander            18-MAY-03       3100
+        144 Peter                09-JUL-06       2500
+        150 Peter                30-JAN-05      10000
+        152 Peter                20-AUG-05       9000
+        153 Christopher          30-MAR-06       8000
+        155 Oliver               23-NOV-07       7000
+        166 Sundar               24-MAR-08       6400
+        170 Tayler               24-JAN-06       9600
+        189 Jennifer             13-AUG-05       3600
+        200 Jennifer             17-SEP-03       4400
+
+11 rows selected.
+
+SQL> select employee_id,first_name,hire_date,salary from employees where first_name like '%_r';
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        103 Alexander            03-JAN-06       9000
+        115 Alexander            18-MAY-03       3100
+        144 Peter                09-JUL-06       2500
+        150 Peter                30-JAN-05      10000
+        152 Peter                20-AUG-05       9000
+        153 Christopher          30-MAR-06       8000
+        155 Oliver               23-NOV-07       7000
+        166 Sundar               24-MAR-08       6400
+        170 Tayler               24-JAN-06       9600
+        189 Jennifer             13-AUG-05       3600
+        200 Jennifer             17-SEP-03       4400
+
+11 rows selected.
+
+SQL> select employee_id,first_name,hire_date,salary from employees where first_name like '%r_';
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        129 Laura                20-AUG-05       3300
+        162 Clara                11-NOV-05      10500
+        183 Girard               03-FEB-08       2800
+
+SQL> select employee_id,first_name,hire_date,salary from employees where first_name like 'A%r';
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        103 Alexander            03-JAN-06       9000
+        115 Alexander            18-MAY-03       3100
+
+SQL> select employee_id,first_name,hire_date,salary from employees where first_name like 'A%t';
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        167 Amit                 21-APR-08       6200
+
+SQL> select employee_id,first_name,hire_date,salary from employees where first_name like 'A%i_';
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        167 Amit                 21-APR-08       6200
+        185 Alexis               20-FEB-05       4100
+
+SQL> select employee_id,first_name,hire_date,salary from employees where first_name like 'A%';
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        167 Amit                 21-APR-08       6200
+        185 Alexis               20-FEB-05       4100
+        187 Anthony              07-FEB-07       3000
+        147 Alberto              10-MAR-05      12000
+        121 Adam                 10-APR-05       8200
+        103 Alexander            03-JAN-06       9000
+        175 Alyssa               19-MAR-05       8800
+        115 Alexander            18-MAY-03       3100
+        158 Allan                01-AUG-04       9000
+        196 Alana                24-APR-06       3100
+
+10 rows selected.
+
+SQL> select employee_id,first_name,hire_date,salary from employees where first_name like 'A%' and salary>8500;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        147 Alberto              10-MAR-05      12000
+        103 Alexander            03-JAN-06       9000
+        175 Alyssa               19-MAR-05       8800
+        158 Allan                01-AUG-04       9000
+
+SQL> select employee_id,first_name,hire_date,salary from employees where first_name like 'A%' or salary>8500;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        100 Steven               17-JUN-03      24000
+        101 Neena                21-SEP-05      17000
+        102 Lex                  13-JAN-01      17000
+        103 Alexander            03-JAN-06       9000
+        108 Nancy                17-AUG-02      12008
+        109 Daniel               16-AUG-02       9000
+        114 Den                  07-DEC-02      11000
+        115 Alexander            18-MAY-03       3100
+        121 Adam                 10-APR-05       8200
+        145 John                 01-OCT-04      14000
+        146 Karen                05-JAN-05      13500
+        147 Alberto              10-MAR-05      12000
+        148 Gerald               15-OCT-07      11000
+        149 Eleni                29-JAN-08      10500
+        150 Peter                30-JAN-05      10000
+        151 David                24-MAR-05       9500
+        152 Peter                20-AUG-05       9000
+        156 Janette              30-JAN-04      10000
+        157 Patrick              04-MAR-04       9500
+        158 Allan                01-AUG-04       9000
+        162 Clara                11-NOV-05      10500
+        163 Danielle             19-MAR-07       9500
+        167 Amit                 21-APR-08       6200
+        168 Lisa                 11-MAR-05      11500
+        169 Harrison             23-MAR-06      10000
+        170 Tayler               24-JAN-06       9600
+        174 Ellen                11-MAY-04      11000
+        175 Alyssa               19-MAR-05       8800
+        176 Jonathon             24-MAR-06       8600
+        185 Alexis               20-FEB-05       4100
+        187 Anthony              07-FEB-07       3000
+        196 Alana                24-APR-06       3100
+        201 Michael              17-FEB-04      13000
+        204 Hermann              07-JUN-02      10000
+        205 Shelley              07-JUN-02      12008
+
+35 rows selected.
+
+SQL> select employee_id,first_name,hire_date,salary from employees;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        100 Steven               17-JUN-03      24000
+        101 Neena                21-SEP-05      17000
+        102 Lex                  13-JAN-01      17000
+        103 Alexander            03-JAN-06       9000
+        104 Bruce                21-MAY-07       6000
+        105 David                25-JUN-05       4800
+        106 Valli                05-FEB-06       4800
+        107 Diana                07-FEB-07       4200
+        108 Nancy                17-AUG-02      12008
+        109 Daniel               16-AUG-02       9000
+        110 John                 28-SEP-05       8200
+        111 Ismael               30-SEP-05       7700
+        112 Jose Manuel          07-MAR-06       7800
+        113 Luis                 07-DEC-07       6900
+        114 Den                  07-DEC-02      11000
+        115 Alexander            18-MAY-03       3100
+        116 Shelli               24-DEC-05       2900
+        117 Sigal                24-JUL-05       2800
+        118 Guy                  15-NOV-06       2600
+        119 Karen                10-AUG-07       2500
+        120 Matthew              18-JUL-04       8000
+        121 Adam                 10-APR-05       8200
+        122 Payam                01-MAY-03       7900
+        123 Shanta               10-OCT-05       6500
+        124 Kevin                16-NOV-07       5800
+        125 Julia                16-JUL-05       3200
+        126 Irene                28-SEP-06       2700
+        127 James                14-JAN-07       2400
+        128 Steven               08-MAR-08       2200
+        129 Laura                20-AUG-05       3300
+        130 Mozhe                30-OCT-05       2800
+        131 James                16-FEB-05       2500
+        132 TJ                   10-APR-07       2100
+        133 Jason                14-JUN-04       3300
+        134 Michael              26-AUG-06       2900
+        135 Ki                   12-DEC-07       2400
+        136 Hazel                06-FEB-08       2200
+        137 Renske               14-JUL-03       3600
+        138 Stephen              26-OCT-05       3200
+        139 John                 12-FEB-06       2700
+        140 Joshua               06-APR-06       2500
+        141 Trenna               17-OCT-03       3500
+        142 Curtis               29-JAN-05       3100
+        143 Randall              15-MAR-06       2600
+        144 Peter                09-JUL-06       2500
+        145 John                 01-OCT-04      14000
+        146 Karen                05-JAN-05      13500
+        147 Alberto              10-MAR-05      12000
+        148 Gerald               15-OCT-07      11000
+        149 Eleni                29-JAN-08      10500
+        150 Peter                30-JAN-05      10000
+        151 David                24-MAR-05       9500
+        152 Peter                20-AUG-05       9000
+        153 Christopher          30-MAR-06       8000
+        154 Nanette              09-DEC-06       7500
+        155 Oliver               23-NOV-07       7000
+        156 Janette              30-JAN-04      10000
+        157 Patrick              04-MAR-04       9500
+        158 Allan                01-AUG-04       9000
+        159 Lindsey              10-MAR-05       8000
+        160 Louise               15-DEC-05       7500
+        161 Sarath               03-NOV-06       7000
+        162 Clara                11-NOV-05      10500
+        163 Danielle             19-MAR-07       9500
+        164 Mattea               24-JAN-08       7200
+        165 David                23-FEB-08       6800
+        166 Sundar               24-MAR-08       6400
+        167 Amit                 21-APR-08       6200
+        168 Lisa                 11-MAR-05      11500
+        169 Harrison             23-MAR-06      10000
+        170 Tayler               24-JAN-06       9600
+        171 William              23-FEB-07       7400
+        172 Elizabeth            24-MAR-07       7300
+        173 Sundita              21-APR-08       6100
+        174 Ellen                11-MAY-04      11000
+        175 Alyssa               19-MAR-05       8800
+        176 Jonathon             24-MAR-06       8600
+        177 Jack                 23-APR-06       8400
+        178 Kimberely            24-MAY-07       7000
+        179 Charles              04-JAN-08       6200
+        180 Winston              24-JAN-06       3200
+        181 Jean                 23-FEB-06       3100
+        182 Martha               21-JUN-07       2500
+        183 Girard               03-FEB-08       2800
+        184 Nandita              27-JAN-04       4200
+        185 Alexis               20-FEB-05       4100
+        186 Julia                24-JUN-06       3400
+        187 Anthony              07-FEB-07       3000
+        188 Kelly                14-JUN-05       3800
+        189 Jennifer             13-AUG-05       3600
+        190 Timothy              11-JUL-06       2900
+        191 Randall              19-DEC-07       2500
+        192 Sarah                04-FEB-04       4000
+        193 Britney              03-MAR-05       3900
+        194 Samuel               01-JUL-06       3200
+        195 Vance                17-MAR-07       2800
+        196 Alana                24-APR-06       3100
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        197 Kevin                23-MAY-06       3000
+        198 Donald               21-JUN-07       2600
+        199 Douglas              13-JAN-08       2600
+        200 Jennifer             17-SEP-03       4400
+        201 Michael              17-FEB-04      13000
+        202 Pat                  17-AUG-05       6000
+        203 Susan                07-JUN-02       6500
+        204 Hermann              07-JUN-02      10000
+        205 Shelley              07-JUN-02      12008
+        206 William              07-JUN-02       8300
+
+107 rows selected.
+
+SQL> select employee_id,first_name,hire_date,salary from employees order by salary asc;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        132 TJ                   10-APR-07       2100
+        128 Steven               08-MAR-08       2200
+        136 Hazel                06-FEB-08       2200
+        127 James                14-JAN-07       2400
+        135 Ki                   12-DEC-07       2400
+        119 Karen                10-AUG-07       2500
+        131 James                16-FEB-05       2500
+        140 Joshua               06-APR-06       2500
+        144 Peter                09-JUL-06       2500
+        182 Martha               21-JUN-07       2500
+        191 Randall              19-DEC-07       2500
+        118 Guy                  15-NOV-06       2600
+        143 Randall              15-MAR-06       2600
+        198 Donald               21-JUN-07       2600
+        199 Douglas              13-JAN-08       2600
+        126 Irene                28-SEP-06       2700
+        139 John                 12-FEB-06       2700
+        117 Sigal                24-JUL-05       2800
+        130 Mozhe                30-OCT-05       2800
+        183 Girard               03-FEB-08       2800
+        195 Vance                17-MAR-07       2800
+        116 Shelli               24-DEC-05       2900
+        134 Michael              26-AUG-06       2900
+        190 Timothy              11-JUL-06       2900
+        187 Anthony              07-FEB-07       3000
+        197 Kevin                23-MAY-06       3000
+        115 Alexander            18-MAY-03       3100
+        142 Curtis               29-JAN-05       3100
+        181 Jean                 23-FEB-06       3100
+        196 Alana                24-APR-06       3100
+        125 Julia                16-JUL-05       3200
+        138 Stephen              26-OCT-05       3200
+        180 Winston              24-JAN-06       3200
+        194 Samuel               01-JUL-06       3200
+        129 Laura                20-AUG-05       3300
+        133 Jason                14-JUN-04       3300
+        186 Julia                24-JUN-06       3400
+        141 Trenna               17-OCT-03       3500
+        137 Renske               14-JUL-03       3600
+        189 Jennifer             13-AUG-05       3600
+        188 Kelly                14-JUN-05       3800
+        193 Britney              03-MAR-05       3900
+        192 Sarah                04-FEB-04       4000
+        185 Alexis               20-FEB-05       4100
+        107 Diana                07-FEB-07       4200
+        184 Nandita              27-JAN-04       4200
+        200 Jennifer             17-SEP-03       4400
+        105 David                25-JUN-05       4800
+        106 Valli                05-FEB-06       4800
+        124 Kevin                16-NOV-07       5800
+        104 Bruce                21-MAY-07       6000
+        202 Pat                  17-AUG-05       6000
+        173 Sundita              21-APR-08       6100
+        167 Amit                 21-APR-08       6200
+        179 Charles              04-JAN-08       6200
+        166 Sundar               24-MAR-08       6400
+        123 Shanta               10-OCT-05       6500
+        203 Susan                07-JUN-02       6500
+        165 David                23-FEB-08       6800
+        113 Luis                 07-DEC-07       6900
+        155 Oliver               23-NOV-07       7000
+        161 Sarath               03-NOV-06       7000
+        178 Kimberely            24-MAY-07       7000
+        164 Mattea               24-JAN-08       7200
+        172 Elizabeth            24-MAR-07       7300
+        171 William              23-FEB-07       7400
+        154 Nanette              09-DEC-06       7500
+        160 Louise               15-DEC-05       7500
+        111 Ismael               30-SEP-05       7700
+        112 Jose Manuel          07-MAR-06       7800
+        122 Payam                01-MAY-03       7900
+        120 Matthew              18-JUL-04       8000
+        153 Christopher          30-MAR-06       8000
+        159 Lindsey              10-MAR-05       8000
+        110 John                 28-SEP-05       8200
+        121 Adam                 10-APR-05       8200
+        206 William              07-JUN-02       8300
+        177 Jack                 23-APR-06       8400
+        176 Jonathon             24-MAR-06       8600
+        175 Alyssa               19-MAR-05       8800
+        103 Alexander            03-JAN-06       9000
+        109 Daniel               16-AUG-02       9000
+        152 Peter                20-AUG-05       9000
+        158 Allan                01-AUG-04       9000
+        157 Patrick              04-MAR-04       9500
+        163 Danielle             19-MAR-07       9500
+        151 David                24-MAR-05       9500
+        170 Tayler               24-JAN-06       9600
+        204 Hermann              07-JUN-02      10000
+        169 Harrison             23-MAR-06      10000
+        156 Janette              30-JAN-04      10000
+        150 Peter                30-JAN-05      10000
+        162 Clara                11-NOV-05      10500
+        149 Eleni                29-JAN-08      10500
+        148 Gerald               15-OCT-07      11000
+        114 Den                  07-DEC-02      11000
+        174 Ellen                11-MAY-04      11000
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        168 Lisa                 11-MAR-05      11500
+        147 Alberto              10-MAR-05      12000
+        205 Shelley              07-JUN-02      12008
+        108 Nancy                17-AUG-02      12008
+        201 Michael              17-FEB-04      13000
+        146 Karen                05-JAN-05      13500
+        145 John                 01-OCT-04      14000
+        102 Lex                  13-JAN-01      17000
+        101 Neena                21-SEP-05      17000
+        100 Steven               17-JUN-03      24000
+
+107 rows selected.
+
+
+
+SQL> select employee_id,first_name,hire_date,salary from employees order by salary desc;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        100 Steven               17-JUN-03      24000
+        101 Neena                21-SEP-05      17000
+        102 Lex                  13-JAN-01      17000
+        145 John                 01-OCT-04      14000
+        146 Karen                05-JAN-05      13500
+        201 Michael              17-FEB-04      13000
+        108 Nancy                17-AUG-02      12008
+        205 Shelley              07-JUN-02      12008
+        147 Alberto              10-MAR-05      12000
+        168 Lisa                 11-MAR-05      11500
+        114 Den                  07-DEC-02      11000
+        148 Gerald               15-OCT-07      11000
+        174 Ellen                11-MAY-04      11000
+        149 Eleni                29-JAN-08      10500
+        162 Clara                11-NOV-05      10500
+        156 Janette              30-JAN-04      10000
+        150 Peter                30-JAN-05      10000
+        204 Hermann              07-JUN-02      10000
+        169 Harrison             23-MAR-06      10000
+        170 Tayler               24-JAN-06       9600
+        163 Danielle             19-MAR-07       9500
+        151 David                24-MAR-05       9500
+        157 Patrick              04-MAR-04       9500
+        152 Peter                20-AUG-05       9000
+        103 Alexander            03-JAN-06       9000
+        158 Allan                01-AUG-04       9000
+        109 Daniel               16-AUG-02       9000
+        175 Alyssa               19-MAR-05       8800
+        176 Jonathon             24-MAR-06       8600
+        177 Jack                 23-APR-06       8400
+        206 William              07-JUN-02       8300
+        121 Adam                 10-APR-05       8200
+        110 John                 28-SEP-05       8200
+        120 Matthew              18-JUL-04       8000
+        159 Lindsey              10-MAR-05       8000
+        153 Christopher          30-MAR-06       8000
+        122 Payam                01-MAY-03       7900
+        112 Jose Manuel          07-MAR-06       7800
+        111 Ismael               30-SEP-05       7700
+        160 Louise               15-DEC-05       7500
+        154 Nanette              09-DEC-06       7500
+        171 William              23-FEB-07       7400
+        172 Elizabeth            24-MAR-07       7300
+        164 Mattea               24-JAN-08       7200
+        155 Oliver               23-NOV-07       7000
+        178 Kimberely            24-MAY-07       7000
+        161 Sarath               03-NOV-06       7000
+        113 Luis                 07-DEC-07       6900
+        165 David                23-FEB-08       6800
+        203 Susan                07-JUN-02       6500
+        123 Shanta               10-OCT-05       6500
+        166 Sundar               24-MAR-08       6400
+        179 Charles              04-JAN-08       6200
+        167 Amit                 21-APR-08       6200
+        173 Sundita              21-APR-08       6100
+        202 Pat                  17-AUG-05       6000
+        104 Bruce                21-MAY-07       6000
+        124 Kevin                16-NOV-07       5800
+        106 Valli                05-FEB-06       4800
+        105 David                25-JUN-05       4800
+        200 Jennifer             17-SEP-03       4400
+        184 Nandita              27-JAN-04       4200
+        107 Diana                07-FEB-07       4200
+        185 Alexis               20-FEB-05       4100
+        192 Sarah                04-FEB-04       4000
+        193 Britney              03-MAR-05       3900
+        188 Kelly                14-JUN-05       3800
+        189 Jennifer             13-AUG-05       3600
+        137 Renske               14-JUL-03       3600
+        141 Trenna               17-OCT-03       3500
+        186 Julia                24-JUN-06       3400
+        133 Jason                14-JUN-04       3300
+        129 Laura                20-AUG-05       3300
+        125 Julia                16-JUL-05       3200
+        194 Samuel               01-JUL-06       3200
+        180 Winston              24-JAN-06       3200
+        138 Stephen              26-OCT-05       3200
+        115 Alexander            18-MAY-03       3100
+        196 Alana                24-APR-06       3100
+        181 Jean                 23-FEB-06       3100
+        142 Curtis               29-JAN-05       3100
+        197 Kevin                23-MAY-06       3000
+        187 Anthony              07-FEB-07       3000
+        116 Shelli               24-DEC-05       2900
+        190 Timothy              11-JUL-06       2900
+        134 Michael              26-AUG-06       2900
+        117 Sigal                24-JUL-05       2800
+        195 Vance                17-MAR-07       2800
+        183 Girard               03-FEB-08       2800
+        130 Mozhe                30-OCT-05       2800
+        139 John                 12-FEB-06       2700
+        126 Irene                28-SEP-06       2700
+        118 Guy                  15-NOV-06       2600
+        199 Douglas              13-JAN-08       2600
+        198 Donald               21-JUN-07       2600
+        143 Randall              15-MAR-06       2600
+        119 Karen                10-AUG-07       2500
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        131 James                16-FEB-05       2500
+        191 Randall              19-DEC-07       2500
+        144 Peter                09-JUL-06       2500
+        182 Martha               21-JUN-07       2500
+        140 Joshua               06-APR-06       2500
+        135 Ki                   12-DEC-07       2400
+        127 James                14-JAN-07       2400
+        136 Hazel                06-FEB-08       2200
+        128 Steven               08-MAR-08       2200
+        132 TJ                   10-APR-07       2100
+
+107 rows selected.
+
+
+SQL> select employee_id,first_name,hire_date,salary from employees order by employee_id desc;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        206 William              07-JUN-02       8300
+        205 Shelley              07-JUN-02      12008
+        204 Hermann              07-JUN-02      10000
+        203 Susan                07-JUN-02       6500
+        202 Pat                  17-AUG-05       6000
+        201 Michael              17-FEB-04      13000
+        200 Jennifer             17-SEP-03       4400
+        199 Douglas              13-JAN-08       2600
+        198 Donald               21-JUN-07       2600
+        197 Kevin                23-MAY-06       3000
+        196 Alana                24-APR-06       3100
+        195 Vance                17-MAR-07       2800
+        194 Samuel               01-JUL-06       3200
+        193 Britney              03-MAR-05       3900
+        192 Sarah                04-FEB-04       4000
+        191 Randall              19-DEC-07       2500
+        190 Timothy              11-JUL-06       2900
+        189 Jennifer             13-AUG-05       3600
+        188 Kelly                14-JUN-05       3800
+        187 Anthony              07-FEB-07       3000
+        186 Julia                24-JUN-06       3400
+        185 Alexis               20-FEB-05       4100
+        184 Nandita              27-JAN-04       4200
+        183 Girard               03-FEB-08       2800
+        182 Martha               21-JUN-07       2500
+        181 Jean                 23-FEB-06       3100
+        180 Winston              24-JAN-06       3200
+        179 Charles              04-JAN-08       6200
+        178 Kimberely            24-MAY-07       7000
+        177 Jack                 23-APR-06       8400
+        176 Jonathon             24-MAR-06       8600
+        175 Alyssa               19-MAR-05       8800
+        174 Ellen                11-MAY-04      11000
+        173 Sundita              21-APR-08       6100
+        172 Elizabeth            24-MAR-07       7300
+        171 William              23-FEB-07       7400
+        170 Tayler               24-JAN-06       9600
+        169 Harrison             23-MAR-06      10000
+        168 Lisa                 11-MAR-05      11500
+        167 Amit                 21-APR-08       6200
+        166 Sundar               24-MAR-08       6400
+        165 David                23-FEB-08       6800
+        164 Mattea               24-JAN-08       7200
+        163 Danielle             19-MAR-07       9500
+        162 Clara                11-NOV-05      10500
+        161 Sarath               03-NOV-06       7000
+        160 Louise               15-DEC-05       7500
+        159 Lindsey              10-MAR-05       8000
+        158 Allan                01-AUG-04       9000
+        157 Patrick              04-MAR-04       9500
+        156 Janette              30-JAN-04      10000
+        155 Oliver               23-NOV-07       7000
+        154 Nanette              09-DEC-06       7500
+        153 Christopher          30-MAR-06       8000
+        152 Peter                20-AUG-05       9000
+        151 David                24-MAR-05       9500
+        150 Peter                30-JAN-05      10000
+        149 Eleni                29-JAN-08      10500
+        148 Gerald               15-OCT-07      11000
+        147 Alberto              10-MAR-05      12000
+        146 Karen                05-JAN-05      13500
+        145 John                 01-OCT-04      14000
+        144 Peter                09-JUL-06       2500
+        143 Randall              15-MAR-06       2600
+        142 Curtis               29-JAN-05       3100
+        141 Trenna               17-OCT-03       3500
+        140 Joshua               06-APR-06       2500
+        139 John                 12-FEB-06       2700
+        138 Stephen              26-OCT-05       3200
+        137 Renske               14-JUL-03       3600
+        136 Hazel                06-FEB-08       2200
+        135 Ki                   12-DEC-07       2400
+        134 Michael              26-AUG-06       2900
+        133 Jason                14-JUN-04       3300
+        132 TJ                   10-APR-07       2100
+        131 James                16-FEB-05       2500
+        130 Mozhe                30-OCT-05       2800
+        129 Laura                20-AUG-05       3300
+        128 Steven               08-MAR-08       2200
+        127 James                14-JAN-07       2400
+        126 Irene                28-SEP-06       2700
+        125 Julia                16-JUL-05       3200
+        124 Kevin                16-NOV-07       5800
+        123 Shanta               10-OCT-05       6500
+        122 Payam                01-MAY-03       7900
+        121 Adam                 10-APR-05       8200
+        120 Matthew              18-JUL-04       8000
+        119 Karen                10-AUG-07       2500
+        118 Guy                  15-NOV-06       2600
+        117 Sigal                24-JUL-05       2800
+        116 Shelli               24-DEC-05       2900
+        115 Alexander            18-MAY-03       3100
+        114 Den                  07-DEC-02      11000
+        113 Luis                 07-DEC-07       6900
+        112 Jose Manuel          07-MAR-06       7800
+        111 Ismael               30-SEP-05       7700
+        110 John                 28-SEP-05       8200
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY
+----------- -------------------- --------- ----------
+        109 Daniel               16-AUG-02       9000
+        108 Nancy                17-AUG-02      12008
+        107 Diana                07-FEB-07       4200
+        106 Valli                05-FEB-06       4800
+        105 David                25-JUN-05       4800
+        104 Bruce                21-MAY-07       6000
+        103 Alexander            03-JAN-06       9000
+        102 Lex                  13-JAN-01      17000
+        101 Neena                21-SEP-05      17000
+        100 Steven               17-JUN-03      24000
+
+107 rows selected.
+
+SQL> select employee_id,first_name,hire_date,salary ,department_id from employees order by employee_id desc;
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY DEPARTMENT_ID
+----------- -------------------- --------- ---------- -------------
+        206 William              07-JUN-02       8300           110
+        205 Shelley              07-JUN-02      12008           110
+        204 Hermann              07-JUN-02      10000            70
+        203 Susan                07-JUN-02       6500            40
+        202 Pat                  17-AUG-05       6000            20
+        201 Michael              17-FEB-04      13000            20
+        200 Jennifer             17-SEP-03       4400            10
+        199 Douglas              13-JAN-08       2600            50
+        198 Donald               21-JUN-07       2600            50
+        197 Kevin                23-MAY-06       3000            50
+        196 Alana                24-APR-06       3100            50
+        195 Vance                17-MAR-07       2800            50
+        194 Samuel               01-JUL-06       3200            50
+        193 Britney              03-MAR-05       3900            50
+        192 Sarah                04-FEB-04       4000            50
+        191 Randall              19-DEC-07       2500            50
+        190 Timothy              11-JUL-06       2900            50
+        189 Jennifer             13-AUG-05       3600            50
+        188 Kelly                14-JUN-05       3800            50
+        187 Anthony              07-FEB-07       3000            50
+        186 Julia                24-JUN-06       3400            50
+        185 Alexis               20-FEB-05       4100            50
+        184 Nandita              27-JAN-04       4200            50
+        183 Girard               03-FEB-08       2800            50
+        182 Martha               21-JUN-07       2500            50
+        181 Jean                 23-FEB-06       3100            50
+        180 Winston              24-JAN-06       3200            50
+        179 Charles              04-JAN-08       6200            80
+        178 Kimberely            24-MAY-07       7000
+        177 Jack                 23-APR-06       8400            80
+        176 Jonathon             24-MAR-06       8600            80
+        175 Alyssa               19-MAR-05       8800            80
+        174 Ellen                11-MAY-04      11000            80
+        173 Sundita              21-APR-08       6100            80
+        172 Elizabeth            24-MAR-07       7300            80
+        171 William              23-FEB-07       7400            80
+        170 Tayler               24-JAN-06       9600            80
+        169 Harrison             23-MAR-06      10000            80
+        168 Lisa                 11-MAR-05      11500            80
+        167 Amit                 21-APR-08       6200            80
+        166 Sundar               24-MAR-08       6400            80
+        165 David                23-FEB-08       6800            80
+        164 Mattea               24-JAN-08       7200            80
+        163 Danielle             19-MAR-07       9500            80
+        162 Clara                11-NOV-05      10500            80
+        161 Sarath               03-NOV-06       7000            80
+        160 Louise               15-DEC-05       7500            80
+        159 Lindsey              10-MAR-05       8000            80
+        158 Allan                01-AUG-04       9000            80
+        157 Patrick              04-MAR-04       9500            80
+        156 Janette              30-JAN-04      10000            80
+        155 Oliver               23-NOV-07       7000            80
+        154 Nanette              09-DEC-06       7500            80
+        153 Christopher          30-MAR-06       8000            80
+        152 Peter                20-AUG-05       9000            80
+        151 David                24-MAR-05       9500            80
+        150 Peter                30-JAN-05      10000            80
+        149 Eleni                29-JAN-08      10500            80
+        148 Gerald               15-OCT-07      11000            80
+        147 Alberto              10-MAR-05      12000            80
+        146 Karen                05-JAN-05      13500            80
+        145 John                 01-OCT-04      14000            80
+        144 Peter                09-JUL-06       2500            50
+        143 Randall              15-MAR-06       2600            50
+        142 Curtis               29-JAN-05       3100            50
+        141 Trenna               17-OCT-03       3500            50
+        140 Joshua               06-APR-06       2500            50
+        139 John                 12-FEB-06       2700            50
+        138 Stephen              26-OCT-05       3200            50
+        137 Renske               14-JUL-03       3600            50
+        136 Hazel                06-FEB-08       2200            50
+        135 Ki                   12-DEC-07       2400            50
+        134 Michael              26-AUG-06       2900            50
+        133 Jason                14-JUN-04       3300            50
+        132 TJ                   10-APR-07       2100            50
+        131 James                16-FEB-05       2500            50
+        130 Mozhe                30-OCT-05       2800            50
+        129 Laura                20-AUG-05       3300            50
+        128 Steven               08-MAR-08       2200            50
+        127 James                14-JAN-07       2400            50
+        126 Irene                28-SEP-06       2700            50
+        125 Julia                16-JUL-05       3200            50
+        124 Kevin                16-NOV-07       5800            50
+        123 Shanta               10-OCT-05       6500            50
+        122 Payam                01-MAY-03       7900            50
+        121 Adam                 10-APR-05       8200            50
+        120 Matthew              18-JUL-04       8000            50
+        119 Karen                10-AUG-07       2500            30
+        118 Guy                  15-NOV-06       2600            30
+        117 Sigal                24-JUL-05       2800            30
+        116 Shelli               24-DEC-05       2900            30
+        115 Alexander            18-MAY-03       3100            30
+        114 Den                  07-DEC-02      11000            30
+        113 Luis                 07-DEC-07       6900           100
+        112 Jose Manuel          07-MAR-06       7800           100
+        111 Ismael               30-SEP-05       7700           100
+        110 John                 28-SEP-05       8200           100
+
+EMPLOYEE_ID FIRST_NAME           HIRE_DATE     SALARY DEPARTMENT_ID
+----------- -------------------- --------- ---------- -------------
+        109 Daniel               16-AUG-02       9000           100
+        108 Nancy                17-AUG-02      12008           100
+        107 Diana                07-FEB-07       4200            60
+        106 Valli                05-FEB-06       4800            60
+        105 David                25-JUN-05       4800            60
+        104 Bruce                21-MAY-07       6000            60
+        103 Alexander            03-JAN-06       9000            60
+        102 Lex                  13-JAN-01      17000            90
+        101 Neena                21-SEP-05      17000            90
+        100 Steven               17-JUN-03      24000            90
+
+107 rows selected.
+
+
+SQL> select sum(salary) ,department_id from employees group by department_id;
+
+SUM(SALARY) DEPARTMENT_ID
+----------- -------------
+      51608           100
+      24900            30
+       7000
+      58000            90
+      19000            20
+      10000            70
+      20308           110
+     156400            50
+     304500            80
+       6500            40
+      28800            60
+       4400            10
+
+12 rows selected.
+
+SQL> select avg(salary) ,department_id from employees group by department_id;
+
+AVG(SALARY) DEPARTMENT_ID
+----------- -------------
+ 8601.33333           100
+       4150            30
+       7000
+ 19333.3333            90
+       9500            20
+      10000            70
+      10154           110
+ 3475.55556            50
+ 8955.88235            80
+       6500            40
+       5760            60
+       4400            10
+
+12 rows selected.
+
+
+SQL> select avg(salary) ,department_id from employees group by department_id having avg(salary)>=7800;
+
+AVG(SALARY) DEPARTMENT_ID
+----------- -------------
+ 8601.33333           100
+ 19333.3333            90
+       9500            20
+      10000            70
+      10154           110
+ 8955.88235            80
+
+6 rows selected.
+
+SQL>
+
+
+
+
